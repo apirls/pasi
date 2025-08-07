@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原料码头无人化改造整体架构</title>
+    <link rel="stylesheet" href="SmartPortArchitecture.css">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function SmartPortArchitecture() {
+            const [hoveredCard, setHoveredCard] = useState(null);
+            const [animationPhase, setAnimationPhase] = useState(0);
+
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    setAnimationPhase(prev => (prev + 1) % 5);
+                }, 3000);
+                return () => clearInterval(interval);
+            }, []);
+
+            const architectureLayers = [
+                { name: '决策层', icon: '🧠', color: '#667eea', description: '智能决策与调度' },
+                { name: '应用层', icon: '📱', color: '#764ba2', description: '业务应用系统' },
+                { name: '平台层', icon: '⚙️', color: '#f093fb', description: '数据处理平台' },
+                { name: '网络层', icon: '🌐', color: '#4facfe', description: '通信网络架构' },
+                { name: '感知层', icon: '👁️', color: '#43e97b', description: '传感器与采集' }
+            ];
+
+            const businessModules = [
+                {
+                    title: '生产组织智能化',
+                    icon: '🏗️',
+                    gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    features: ['自动调度', '智能排产', '资源优化', '协同作业'],
+                    position: 'top'
+                },
+                {
+                    title: '末端执行智能化',
+                    icon: '🤖',
+                    gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                    features: ['无人驾驶', '自动装卸', '精准定位', '安全监控'],
+                    position: 'left'
+                },
+                {
+                    title: '设备维护预测化',
+                    icon: '🔧',
+                    gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                    features: ['故障预测', '预防维护', '状态监控', '智能诊断'],
+                    position: 'right'
+                }
+            ];
+
+            return React.createElement('div', { className: 'smart-port-container' },
+                // 背景粒子效果
+                React.createElement('div', { className: 'particles-bg' },
+                    [...Array(50)].map((_, i) => 
+                        React.createElement('div', {
+                            key: i,
+                            className: 'particle',
+                            style: {
+                                left: `${Math.random() * 100}%`,
+                                top: `${Math.random() * 100}%`,
+                                animationDelay: `${Math.random() * 3}s`,
+                                animationDuration: `${3 + Math.random() * 4}s`
+                            }
+                        })
+                    )
+                ),
+
+                // 标题区域
+                React.createElement('div', { className: 'header-section' },
+                    React.createElement('div', { className: 'main-title' },
+                        React.createElement('h1', null,
+                            React.createElement('span', { className: 'title-icon' }, '🏗️'),
+                            '原料码头无人化改造整体架构'
+                        ),
+                        React.createElement('p', { className: 'subtitle' },
+                            '"自组织、自执行、自维护" 智能化体系'
+                        )
+                    )
+                ),
+
+                // 主要架构区域
+                React.createElement('div', { className: 'architecture-layout' },
+                    // 顶部：生产组织智能化
+                    React.createElement('div', {
+                        className: `business-module top-module ${hoveredCard === 'production' ? 'hovered' : ''}`,
+                        onMouseEnter: () => setHoveredCard('production'),
+                        onMouseLeave: () => setHoveredCard(null),
+                        style: { background: businessModules[0].gradient }
+                    },
+                        React.createElement('div', { className: 'module-content' },
+                            React.createElement('div', { className: 'module-header' },
+                                React.createElement('span', { className: 'module-icon' }, businessModules[0].icon),
+                                React.createElement('h3', null, businessModules[0].title)
+                            ),
+                            React.createElement('div', { className: 'module-features' },
+                                businessModules[0].features.map((feature, index) =>
+                                    React.createElement('span', { key: index, className: 'feature-tag' }, feature)
+                                )
+                            )
+                        ),
+                        React.createElement('div', { className: 'glow-effect' })
+                    ),
+
+                    // 中央：5层技术架构
+                    React.createElement('div', { className: 'central-architecture' },
+                        React.createElement('div', { className: 'architecture-title' },
+                            React.createElement('h3', null, '🏛️ 技术架构层次')
+                        ),
+                        React.createElement('div', { className: 'layers-container' },
+                            architectureLayers.map((layer, index) =>
+                                React.createElement('div', {
+                                    key: index,
+                                    className: `architecture-layer ${animationPhase === index ? 'active' : ''}`,
+                                    style: {
+                                        background: `linear-gradient(135deg, ${layer.color}aa, ${layer.color})`,
+                                        animationDelay: `${index * 0.2}s`
+                                    },
+                                    onMouseEnter: () => setHoveredCard(`layer-${index}`),
+                                    onMouseLeave: () => setHoveredCard(null)
+                                },
+                                    React.createElement('div', { className: 'layer-content' },
+                                        React.createElement('span', { className: 'layer-icon' }, layer.icon),
+                                        React.createElement('div', { className: 'layer-info' },
+                                            React.createElement('h4', null, layer.name),
+                                            React.createElement('p', null, layer.description)
+                                        )
+                                    ),
+                                    React.createElement('div', { className: 'layer-pulse' })
+                                )
+                            )
+                        )
+                    ),
+
+                    // 底部：左右两个模块
+                    React.createElement('div', { className: 'bottom-modules' },
+                        // 左侧：末端执行智能化
+                        React.createElement('div', {
+                            className: `business-module left-module ${hoveredCard === 'execution' ? 'hovered' : ''}`,
+                            onMouseEnter: () => setHoveredCard('execution'),
+                            onMouseLeave: () => setHoveredCard(null),
+                            style: { background: businessModules[1].gradient }
+                        },
+                            React.createElement('div', { className: 'module-content' },
+                                React.createElement('div', { className: 'module-header' },
+                                    React.createElement('span', { className: 'module-icon' }, businessModules[1].icon),
+                                    React.createElement('h3', null, businessModules[1].title)
+                                ),
+                                React.createElement('div', { className: 'module-features' },
+                                    businessModules[1].features.map((feature, index) =>
+                                        React.createElement('span', { key: index, className: 'feature-tag' }, feature)
+                                    )
+                                )
+                            ),
+                            React.createElement('div', { className: 'glow-effect' })
+                        ),
+
+                        // 右侧：设备维护预测化
+                        React.createElement('div', {
+                            className: `business-module right-module ${hoveredCard === 'maintenance' ? 'hovered' : ''}`,
+                            onMouseEnter: () => setHoveredCard('maintenance'),
+                            onMouseLeave: () => setHoveredCard(null),
+                            style: { background: businessModules[2].gradient }
+                        },
+                            React.createElement('div', { className: 'module-content' },
+                                React.createElement('div', { className: 'module-header' },
+                                    React.createElement('span', { className: 'module-icon' }, businessModules[2].icon),
+                                    React.createElement('h3', null, businessModules[2].title)
+                                ),
+                                React.createElement('div', { className: 'module-features' },
+                                    businessModules[2].features.map((feature, index) =>
+                                        React.createElement('span', { key: index, className: 'feature-tag' }, feature)
+                                    )
+                                )
+                            ),
+                            React.createElement('div', { className: 'glow-effect' })
+                        )
+                    )
+                ),
+
+                // 连接线动画
+                React.createElement('svg', {
+                    className: 'connections-svg',
+                    viewBox: '0 0 1200 800'
+                },
+                    React.createElement('defs', null,
+                        React.createElement('linearGradient', { id: 'lineGradient1', x1: '0%', y1: '0%', x2: '100%', y2: '0%' },
+                            React.createElement('stop', { offset: '0%', stopColor: '#667eea', stopOpacity: '0.8' }),
+                            React.createElement('stop', { offset: '100%', stopColor: '#764ba2', stopOpacity: '0.8' })
+                        ),
+                        React.createElement('linearGradient', { id: 'lineGradient2', x1: '0%', y1: '0%', x2: '100%', y2: '0%' },
+                            React.createElement('stop', { offset: '0%', stopColor: '#f093fb', stopOpacity: '0.8' }),
+                            React.createElement('stop', { offset: '100%', stopColor: '#f5576c', stopOpacity: '0.8' })
+                        ),
+                        React.createElement('linearGradient', { id: 'lineGradient3', x1: '0%', y1: '0%', x2: '100%', y2: '0%' },
+                            React.createElement('stop', { offset: '0%', stopColor: '#4facfe', stopOpacity: '0.8' }),
+                            React.createElement('stop', { offset: '100%', stopColor: '#00f2fe', stopOpacity: '0.8' })
+                        )
+                    ),
+                    React.createElement('path', {
+                        d: 'M 600 200 Q 600 250 600 300',
+                        stroke: 'url(#lineGradient1)',
+                        strokeWidth: '4',
+                        fill: 'none',
+                        className: 'connection-line line-1'
+                    }),
+                    React.createElement('path', {
+                        d: 'M 550 500 Q 400 550 250 600',
+                        stroke: 'url(#lineGradient2)',
+                        strokeWidth: '4',
+                        fill: 'none',
+                        className: 'connection-line line-2'
+                    }),
+                    React.createElement('path', {
+                        d: 'M 650 500 Q 800 550 950 600',
+                        stroke: 'url(#lineGradient3)',
+                        strokeWidth: '4',
+                        fill: 'none',
+                        className: 'connection-line line-3'
+                    })
+                ),
+
+                // 底部控制说明
+                React.createElement('div', { className: 'controls-info' },
+                    React.createElement('div', { className: 'control-item' },
+                        React.createElement('span', null, '🖱️'),
+                        React.createElement('span', null, '悬停查看详情')
+                    ),
+                    React.createElement('div', { className: 'control-item' },
+                        React.createElement('span', null, '✨'),
+                        React.createElement('span', null, '自动层级展示')
+                    ),
+                    React.createElement('div', { className: 'control-item' },
+                        React.createElement('span', null, '🎯'),
+                        React.createElement('span', null, '智能化架构')
+                    )
+                )
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(SmartPortArchitecture));
+    </script>
+</body>
+</html>
